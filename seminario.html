@@ -1,0 +1,1570 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Biblioteca Central de Seattle — UCDB · Seminário Arquitetônico</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #0F1420;
+  --bg2: #161C2D;
+  --bg3: #1E2640;
+  --card: #1A2035;
+  --primary: #4A7FA5;
+  --accent1: #5B9EC9;
+  --accent2: #E8A838;
+  --accent3: #3D5A73;
+  --ink: #F0F4FF;
+  --ink2: #9BAAC8;
+  --ink3: #6B7A9E;
+  --hfont: 'Space Grotesk', sans-serif;
+  --bfont: 'Inter', sans-serif;
+  --efont: 'Cormorant Garamond', serif;
+  --radius: 14px;
+  --shadow: 0 8px 40px rgba(0,0,0,0.4);
+  --transition: 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--bfont);
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--accent3); border-radius: 3px; }
+
+/* ===== NAV ===== */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: rgba(15,20,32,0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(74,127,165,0.15);
+  padding: 0 2rem;
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: var(--transition);
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.nav-logo-icon {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--primary), var(--accent2));
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; color: #fff;
+}
+.nav-logo-text { font-family: var(--hfont); font-size: 0.9rem; font-weight: 700; color: var(--ink); }
+.nav-logo-sub { font-size: 0.65rem; color: var(--ink2); font-weight: 400; }
+.nav-links {
+  display: flex; align-items: center; gap: 0.25rem;
+  list-style: none;
+}
+.nav-links a {
+  font-family: var(--hfont); font-size: 0.75rem; font-weight: 600;
+  color: var(--ink2); padding: 0.4rem 0.75rem; border-radius: 8px;
+  transition: var(--transition); text-transform: uppercase; letter-spacing: 0.08em;
+}
+.nav-links a:hover { color: var(--ink); background: rgba(74,127,165,0.12); }
+.nav-cta {
+  background: linear-gradient(135deg, var(--primary), var(--accent1));
+  color: #fff !important; padding: 0.4rem 1rem !important;
+  border-radius: 20px !important;
+}
+.nav-cta:hover { opacity: 0.9; background: linear-gradient(135deg, var(--primary), var(--accent1)) !important; }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+.hamburger span { width: 24px; height: 2px; background: var(--ink); border-radius: 2px; transition: var(--transition); }
+.mobile-menu {
+  display: none; position: fixed; top: 64px; left: 0; right: 0;
+  background: rgba(15,20,32,0.98); backdrop-filter: blur(20px);
+  padding: 1.5rem 2rem; z-index: 999;
+  border-bottom: 1px solid rgba(74,127,165,0.15);
+  flex-direction: column; gap: 0.5rem;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-family: var(--hfont); font-size: 0.9rem; font-weight: 600;
+  color: var(--ink2); padding: 0.75rem 1rem; border-radius: 10px;
+  transition: var(--transition); text-transform: uppercase; letter-spacing: 0.08em;
+}
+.mobile-menu a:hover { color: var(--ink); background: rgba(74,127,165,0.12); }
+
+/* ===== HERO ===== */
+.hero {
+  min-height: 100vh;
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  padding: 80px 2rem 4rem;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background-image: url('https://designsociety-admin.safecontrol.gr/storage/attachments/mmfkid/5/Seattle Public Library_OMA_Rem Koolhaas.jpg');
+  background-size: cover; background-position: center;
+  filter: brightness(0.25) saturate(0.8);
+  transform: scale(1.05);
+  transition: transform 8s ease;
+}
+.hero-bg.loaded { transform: scale(1); }
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(15,20,32,0.85) 0%, rgba(15,20,32,0.4) 50%, rgba(15,20,32,0.75) 100%);
+}
+.hero-diagrid {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(74,127,165,0.06) 0px, rgba(74,127,165,0.06) 1px, transparent 1px, transparent 40px),
+    repeating-linear-gradient(-45deg, rgba(74,127,165,0.06) 0px, rgba(74,127,165,0.06) 1px, transparent 1px, transparent 40px);
+}
+.hero-content {
+  position: relative; z-index: 2;
+  max-width: 900px; text-align: center;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: rgba(74,127,165,0.15); border: 1px solid rgba(74,127,165,0.3);
+  border-radius: 30px; padding: 0.4rem 1.2rem;
+  font-family: var(--hfont); font-size: 0.72rem; font-weight: 600;
+  color: var(--accent1); letter-spacing: 0.15em; text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  animation: fadeInDown 0.8s ease both;
+}
+.hero-title {
+  font-family: var(--hfont); font-size: clamp(2.8rem, 7vw, 6rem);
+  font-weight: 800; line-height: 0.95; letter-spacing: -0.03em;
+  color: var(--ink); margin-bottom: 0.5rem;
+  animation: fadeInUp 0.8s 0.1s ease both;
+}
+.hero-title span { color: var(--accent2); display: block; }
+.hero-subtitle {
+  font-family: var(--efont); font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  color: var(--ink2); margin-bottom: 2rem; font-style: italic;
+  animation: fadeInUp 0.8s 0.2s ease both;
+}
+.hero-meta {
+  display: flex; align-items: center; justify-content: center; gap: 1.5rem;
+  flex-wrap: wrap; margin-bottom: 2.5rem;
+  animation: fadeInUp 0.8s 0.3s ease both;
+}
+.hero-meta-item {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 0.8rem; color: var(--ink2);
+}
+.hero-meta-item i { color: var(--accent1); }
+.hero-stats {
+  display: flex; align-items: center; justify-content: center; gap: 2rem;
+  flex-wrap: wrap; margin-bottom: 3rem;
+  animation: fadeInUp 0.8s 0.4s ease both;
+}
+.hero-stat { text-align: center; }
+.hero-stat-num {
+  font-family: var(--hfont); font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 800; color: var(--accent2); line-height: 1;
+}
+.hero-stat-label { font-size: 0.72rem; color: var(--ink2); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.2rem; }
+.hero-stat-divider { width: 1px; height: 50px; background: rgba(74,127,165,0.3); }
+.hero-cta {
+  display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap;
+  animation: fadeInUp 0.8s 0.5s ease both;
+}
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: linear-gradient(135deg, var(--primary), var(--accent1));
+  color: #fff; padding: 0.85rem 2rem; border-radius: 50px;
+  font-family: var(--hfont); font-size: 0.85rem; font-weight: 700;
+  letter-spacing: 0.05em; transition: var(--transition);
+  box-shadow: 0 4px 20px rgba(91,158,201,0.3);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(91,158,201,0.4); }
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  border: 1px solid rgba(74,127,165,0.4); color: var(--ink2);
+  padding: 0.85rem 2rem; border-radius: 50px;
+  font-family: var(--hfont); font-size: 0.85rem; font-weight: 600;
+  transition: var(--transition);
+}
+.btn-outline:hover { border-color: var(--accent1); color: var(--ink); background: rgba(74,127,165,0.1); }
+.hero-scroll {
+  position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  color: var(--ink3); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em;
+  animation: bounce 2s infinite;
+}
+.hero-scroll i { font-size: 1rem; }
+
+/* ===== SECTIONS COMMON ===== */
+section { padding: 5rem 2rem; }
+.container { max-width: 1200px; margin: 0 auto; }
+.section-label {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: var(--hfont); font-size: 0.7rem; font-weight: 700;
+  color: var(--accent2); text-transform: uppercase; letter-spacing: 0.2em;
+  margin-bottom: 0.75rem;
+}
+.section-label::before { content: ''; width: 24px; height: 2px; background: var(--accent2); border-radius: 2px; }
+.section-title {
+  font-family: var(--hfont); font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800; color: var(--ink); line-height: 1.1;
+  letter-spacing: -0.02em; margin-bottom: 1rem;
+}
+.section-title span { color: var(--accent1); }
+.section-desc { font-size: 1rem; color: var(--ink2); max-width: 600px; line-height: 1.7; }
+.divider-line {
+  width: 100%; height: 1px;
+  background: linear-gradient(90deg, rgba(74,127,165,0.3), transparent);
+  margin: 4rem 0;
+}
+
+/* ===== IDENTIFICAÇÃO ===== */
+#identificacao { background: var(--bg2); }
+.id-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 3rem; align-items: center;
+}
+.id-image-wrap {
+  position: relative; border-radius: var(--radius); overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.id-image-wrap img { width: 100%; height: 420px; object-fit: cover; }
+.id-image-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(15,20,32,0.7) 0%, transparent 60%);
+}
+.id-image-badge {
+  position: absolute; bottom: 1.5rem; left: 1.5rem;
+  background: rgba(15,20,32,0.9); border-left: 3px solid var(--accent2);
+  padding: 0.6rem 1rem; border-radius: 0 8px 8px 0;
+  font-family: var(--hfont); font-size: 0.72rem; color: var(--ink2);
+  text-transform: uppercase; letter-spacing: 0.1em;
+}
+.id-image-badge strong { color: var(--accent2); display: block; font-size: 0.85rem; }
+.id-facts { display: flex; flex-direction: column; gap: 1.25rem; }
+.id-fact {
+  background: var(--card); border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-left: 3px solid var(--accent1);
+  padding: 1.25rem 1.5rem;
+  transition: var(--transition);
+}
+.id-fact:hover { border-left-color: var(--accent2); transform: translateX(4px); }
+.id-fact-label {
+  font-family: var(--hfont); font-size: 0.65rem; font-weight: 700;
+  color: var(--accent1); text-transform: uppercase; letter-spacing: 0.15em;
+  margin-bottom: 0.4rem;
+}
+.id-fact-value { font-size: 0.9rem; color: var(--ink); line-height: 1.5; }
+.id-fact-value strong { color: var(--accent2); }
+
+/* ===== HISTÓRIA TIMELINE ===== */
+#historia { background: var(--bg); }
+.timeline { position: relative; padding-left: 2rem; }
+.timeline::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 2px; background: linear-gradient(to bottom, var(--accent2), var(--accent1), rgba(74,127,165,0.2));
+}
+.timeline-item {
+  position: relative; padding-left: 2.5rem; padding-bottom: 3rem;
+  opacity: 0; transform: translateX(-20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.timeline-item.visible { opacity: 1; transform: translateX(0); }
+.timeline-dot {
+  position: absolute; left: -2.85rem; top: 0.2rem;
+  width: 2.2rem; height: 2.2rem; border-radius: 50%;
+  background: var(--bg2); border: 2px solid var(--accent1);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--accent1); font-size: 0.8rem;
+  box-shadow: 0 0 16px rgba(91,158,201,0.3);
+}
+.timeline-year {
+  font-family: var(--hfont); font-size: 0.7rem; font-weight: 700;
+  color: var(--accent2); text-transform: uppercase; letter-spacing: 0.15em;
+  margin-bottom: 0.3rem;
+}
+.timeline-title {
+  font-family: var(--hfont); font-size: 1.3rem; font-weight: 700;
+  color: var(--ink); margin-bottom: 0.5rem;
+}
+.timeline-text { font-size: 0.9rem; color: var(--ink2); line-height: 1.7; max-width: 700px; }
+.timeline-images {
+  display: flex; gap: 1rem; margin-top: 1.25rem; flex-wrap: wrap;
+}
+.timeline-img {
+  border-radius: 10px; overflow: hidden; flex: 1; min-width: 200px; max-width: 320px;
+  border: 1px solid rgba(74,127,165,0.2);
+}
+.timeline-img img { width: 100%; height: 180px; object-fit: cover; }
+.timeline-img-label {
+  background: var(--bg2); padding: 0.4rem 0.75rem;
+  font-size: 0.65rem; color: var(--ink3); text-transform: uppercase; letter-spacing: 0.1em;
+}
+
+/* ===== PROBLEMA ===== */
+#problema { background: var(--bg2); }
+.problema-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem; margin-top: 2.5rem;
+}
+.problema-card {
+  background: var(--card); border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 1.75rem 1.5rem; text-align: center;
+  transition: var(--transition);
+  opacity: 0; transform: translateY(20px);
+}
+.problema-card.visible { opacity: 1; transform: translateY(0); }
+.problema-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.problema-num {
+  font-family: var(--hfont); font-size: 2.5rem; font-weight: 800;
+  color: var(--accent2); line-height: 1; margin-bottom: 0.3rem;
+}
+.problema-label {
+  font-family: var(--hfont); font-size: 0.75rem; font-weight: 700;
+  color: var(--accent1); text-transform: uppercase; letter-spacing: 0.12em;
+  margin-bottom: 0.5rem;
+}
+.problema-desc { font-size: 0.82rem; color: var(--ink2); line-height: 1.6; }
+.quote-block {
+  background: var(--card); border-radius: var(--radius);
+  border-left: 4px solid var(--accent2);
+  padding: 2rem 2.5rem; margin-top: 2.5rem;
+  position: relative;
+}
+.quote-mark {
+  font-family: var(--efont); font-size: 5rem; color: var(--accent2);
+  opacity: 0.2; position: absolute; top: -0.5rem; left: 1.5rem;
+  line-height: 1;
+}
+.quote-text {
+  font-family: var(--efont); font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  color: var(--ink); line-height: 1.6; font-style: italic;
+  position: relative; z-index: 1; padding-left: 1rem;
+}
+.quote-author {
+  font-family: var(--hfont); font-size: 0.72rem; font-weight: 600;
+  color: var(--accent2); text-transform: uppercase; letter-spacing: 0.12em;
+  margin-top: 1rem; padding-left: 1rem;
+}
+
+/* ===== INSERÇÃO URBANA ===== */
+#urbana { background: var(--bg); }
+.urbana-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+.urbana-map {
+  border-radius: var(--radius); overflow: hidden;
+  border: 1px solid rgba(74,127,165,0.2);
+  box-shadow: var(--shadow);
+}
+.urbana-map img { width: 100%; height: 400px; object-fit: cover; }
+.urbana-map-label {
+  background: var(--bg2); padding: 0.75rem 1.25rem;
+  display: flex; align-items: center; gap: 0.5rem;
+  font-family: var(--hfont); font-size: 0.7rem; color: var(--ink2);
+  text-transform: uppercase; letter-spacing: 0.1em;
+  border-top: 2px solid var(--accent2);
+}
+.urbana-map-label i { color: var(--accent2); }
+.urbana-info { display: flex; flex-direction: column; gap: 1rem; }
+.urbana-card {
+  background: var(--card); border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 1.25rem 1.5rem;
+  display: flex; align-items: flex-start; gap: 1rem;
+  transition: var(--transition);
+}
+.urbana-card:hover { border-color: rgba(91,158,201,0.3); }
+.urbana-icon {
+  width: 2.5rem; height: 2.5rem; border-radius: 10px;
+  background: rgba(91,158,201,0.12); color: var(--accent1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; flex-shrink: 0;
+}
+.urbana-card-title { font-family: var(--hfont); font-size: 0.9rem; font-weight: 700; color: var(--ink); margin-bottom: 0.3rem; }
+.urbana-card-text { font-size: 0.82rem; color: var(--ink2); line-height: 1.6; }
+.urbana-kpis {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.5rem;
+}
+.urbana-kpi {
+  background: rgba(232,168,56,0.08); border: 1px solid rgba(232,168,56,0.2);
+  border-radius: 10px; padding: 1rem; text-align: center;
+}
+.urbana-kpi-num { font-family: var(--hfont); font-size: 1.8rem; font-weight: 800; color: var(--accent2); line-height: 1; }
+.urbana-kpi-label { font-size: 0.7rem; color: var(--ink2); margin-top: 0.2rem; }
+
+/* ===== CONCEITO PLATAFORMAS ===== */
+#conceito { background: var(--bg2); }
+.conceito-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; margin-top: 2.5rem; }
+.conceito-col { display: flex; flex-direction: column; gap: 1rem; }
+.conceito-header {
+  background: var(--card); border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  border-top: 3px solid var(--accent2);
+}
+.conceito-header-title {
+  font-family: var(--hfont); font-size: 0.7rem; font-weight: 700;
+  color: var(--accent2); text-transform: uppercase; letter-spacing: 0.15em;
+  margin-bottom: 0.3rem;
+}
+.conceito-header-sub { font-family: var(--hfont); font-size: 1rem; font-weight: 700; color: var(--ink); margin-bottom: 0.5rem; }
+.conceito-header-desc { font-size: 0.82rem; color: var(--ink2); line-height: 1.6; }
+.conceito-item {
+  background: var(--card); border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 0.9rem 1.25rem;
+  display: flex; align-items: center; gap: 0.75rem;
+  transition: var(--transition);
+}
+.conceito-item:hover { border-color: rgba(91,158,201,0.3); transform: translateX(4px); }
+.conceito-item i { color: var(--accent1); font-size: 0.85rem; width: 1rem; text-align: center; flex-shrink: 0; }
+.conceito-item span { font-size: 0.85rem; color: var(--ink2); }
+.conceito-item span strong { color: var(--ink); }
+.conceito-diagram {
+  border-radius: var(--radius); overflow: hidden;
+  border: 1px solid rgba(74,127,165,0.2);
+  box-shadow: var(--shadow);
+}
+.conceito-diagram img { width: 100%; height: 300px; object-fit: contain; background: #fff; }
+.conceito-diagram-label {
+  background: var(--bg2); padding: 0.6rem 1rem;
+  font-size: 0.68rem; color: var(--ink3); text-align: center;
+  text-transform: uppercase; letter-spacing: 0.1em;
+}
+
+/* ===== DIAGRID ===== */
+#diagrid { background: var(--bg); }
+.diagrid-layout { display: grid; grid-template-columns: 1.2fr 1fr; gap: 3rem; align-items: center; }
+.diagrid-image {
+  border-radius: var(--radius); overflow: hidden;
+  box-shadow: var(--shadow); border: 1px solid rgba(74,127,165,0.2);
+}
+.diagrid-image img { width: 100%; height: 480px; object-fit: cover; }
+.diagrid-info { display: flex; flex-direction: column; gap: 1.25rem; }
+.diagrid-feature {
+  background: var(--card); border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 1.25rem 1.5rem;
+  display: flex; align-items: flex-start; gap: 1rem;
+  transition: var(--transition);
+}
+.diagrid-feature:hover { border-color: rgba(232,168,56,0.3); }
+.diagrid-icon {
+  width: 2.5rem; height: 2.5rem; border-radius: 10px;
+  background: rgba(232,168,56,0.12); color: var(--accent2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; flex-shrink: 0;
+}
+.diagrid-feature-title { font-family: var(--hfont); font-size: 0.9rem; font-weight: 700; color: var(--ink); margin-bottom: 0.3rem; }
+.diagrid-feature-text { font-size: 0.82rem; color: var(--ink2); line-height: 1.6; }
+
+/* ===== BOOK SPIRAL ===== */
+#spiral { background: var(--bg2); }
+.spiral-layout { display: grid; grid-template-columns: 1fr 1.2fr; gap: 3rem; align-items: center; }
+.spiral-info { display: flex; flex-direction: column; gap: 1.25rem; }
+.spiral-stat {
+  background: var(--card); border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 1.5rem; text-align: center;
+  border-top: 3px solid var(--accent1);
+}
+.spiral-stat-num { font-family: var(--hfont); font-size: 2.5rem; font-weight: 800; color: var(--accent1); line-height: 1; }
+.spiral-stat-label { font-size: 0.75rem; color: var(--ink2); margin-top: 0.3rem; text-transform: uppercase; letter-spacing: 0.1em; }
+.spiral-features { display: flex; flex-direction: column; gap: 0.75rem; }
+.spiral-feature {
+  display: flex; align-items: flex-start; gap: 0.75rem;
+  background: var(--card); border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 1rem 1.25rem;
+}
+.spiral-feature i { color: var(--accent1); font-size: 0.9rem; margin-top: 0.15rem; flex-shrink: 0; }
+.spiral-feature-text { font-size: 0.85rem; color: var(--ink2); line-height: 1.5; }
+.spiral-feature-text strong { color: var(--ink); }
+.spiral-image {
+  border-radius: var(--radius); overflow: hidden;
+  box-shadow: var(--shadow); border: 1px solid rgba(74,127,165,0.2);
+}
+.spiral-image img { width: 100%; height: 480px; object-fit: cover; }
+
+/* ===== ESPAÇOS ===== */
+#espacos { background: var(--bg); }
+.espacos-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem; margin-top: 2.5rem;
+}
+.espaco-card {
+  border-radius: var(--radius); overflow: hidden;
+  background: var(--card); border: 1px solid rgba(255,255,255,0.05);
+  box-shadow: var(--shadow); transition: var(--transition);
+  opacity: 0; transform: translateY(20px);
+}
+.espaco-card.visible { opacity: 1; transform: translateY(0); }
+.espaco-card:hover { transform: translateY(-6px); box-shadow: 0 16px 50px rgba(0,0,0,0.5); }
+.espaco-img { position: relative; overflow: hidden; }
+.espaco-img img { width: 100%; height: 220px; object-fit: cover; transition: transform 0.5s ease; }
+.espaco-card:hover .espaco-img img { transform: scale(1.05); }
+.espaco-img-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(15,20,32,0.8) 0%, transparent 60%);
+}
+.espaco-floor {
+  position: absolute; top: 1rem; left: 1rem;
+  background: rgba(232,168,56,0.9); color: #000;
+  font-family: var(--hfont); font-size: 0.65rem; font-weight: 700;
+  padding: 0.25rem 0.6rem; border-radius: 20px;
+  text-transform: uppercase; letter-spacing: 0.1em;
+}
+.espaco-body { padding: 1.25rem; }
+.espaco-title { font-family: var(--hfont); font-size: 1.1rem; font-weight: 700; color: var(--ink); margin-bottom: 0.5rem; }
+.espaco-desc { font-size: 0.82rem; color: var(--ink2); line-height: 1.6; }
+
+/* ===== PROGRAMA ===== */
+#programa { background: var(--bg2); }
+.programa-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem; margin-top: 2.5rem;
+}
+.programa-card {
+  background: var(--card); border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 1.5rem; transition: var(--transition);
+  display: flex; align-items: flex-start; gap: 1rem;
+}
+.programa-card:hover { border-color: rgba(91,158,201,0.3); transform: translateY(-3px); }
+.programa-icon-wrap {
+  width: 3rem; height: 3rem; border-radius: 12px;
+  background: linear-gradient(135deg, var(--primary), var(--accent3));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; color: #fff; flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(74,127,165,0.3);
+}
+.programa-num { font-family: var(--hfont); font-size: 1.4rem; font-weight: 800; color: var(--accent2); line-height: 1; }
+.programa-label { font-family: var(--hfont); font-size: 0.65rem; font-weight: 700; color: var(--accent1); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 0.3rem; }
+.programa-title { font-family: var(--hfont); font-size: 0.95rem; font-weight: 700; color: var(--ink); margin-bottom: 0.3rem; }
+.programa-desc { font-size: 0.78rem; color: var(--ink2); line-height: 1.5; }
+
+/* ===== IMPACTOS ===== */
+#impactos { background: var(--bg); }
+.impactos-kpis {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem; margin-top: 2.5rem;
+}
+.kpi-card {
+  background: var(--card); border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 2rem; text-align: center;
+  border-top: 3px solid var(--accent2);
+  transition: var(--transition);
+  opacity: 0; transform: translateY(20px);
+}
+.kpi-card.visible { opacity: 1; transform: translateY(0); }
+.kpi-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.kpi-num { font-family: var(--hfont); font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; color: var(--accent2); line-height: 1; }
+.kpi-label { font-size: 0.8rem; color: var(--ink2); margin-top: 0.5rem; line-height: 1.4; }
+.impactos-awards {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1.25rem; margin-top: 1.5rem;
+}
+.award-card {
+  background: var(--card); border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 1.5rem; display: flex; align-items: center; gap: 1rem;
+  transition: var(--transition);
+}
+.award-card:hover { border-color: rgba(232,168,56,0.3); }
+.award-icon { font-size: 2rem; color: var(--accent2); flex-shrink: 0; }
+.award-title { font-family: var(--hfont); font-size: 0.9rem; font-weight: 700; color: var(--ink); margin-bottom: 0.3rem; }
+.award-desc { font-size: 0.78rem; color: var(--ink2); line-height: 1.5; }
+
+/* ===== ANÁLISE CRÍTICA ===== */
+#critica { background: var(--bg2); }
+.critica-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2.5rem; }
+.critica-col { background: var(--card); border-radius: var(--radius); overflow: hidden; }
+.critica-col-header {
+  padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 0.75rem;
+  font-family: var(--hfont); font-size: 0.9rem; font-weight: 700;
+}
+.critica-col.positivo .critica-col-header { background: rgba(232,168,56,0.1); border-bottom: 2px solid var(--accent2); color: var(--accent2); }
+.critica-col.critico .critica-col-header { background: rgba(91,158,201,0.1); border-bottom: 2px solid var(--accent1); color: var(--accent1); }
+.critica-items { padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 0.75rem; }
+.critica-item {
+  display: flex; align-items: flex-start; gap: 0.75rem;
+  padding: 0.75rem 1rem; border-radius: 10px;
+  background: rgba(255,255,255,0.02);
+  border-left: 3px solid transparent;
+  transition: var(--transition);
+}
+.critica-col.positivo .critica-item { border-left-color: var(--accent2); }
+.critica-col.critico .critica-item { border-left-color: var(--accent1); }
+.critica-item:hover { background: rgba(255,255,255,0.04); }
+.critica-col.positivo .critica-item i { color: var(--accent2); }
+.critica-col.critico .critica-item i { color: var(--accent1); }
+.critica-item i { font-size: 0.8rem; margin-top: 0.2rem; flex-shrink: 0; }
+.critica-item-text { font-size: 0.82rem; color: var(--ink2); line-height: 1.5; }
+.critica-item-text strong { color: var(--ink); }
+
+/* ===== LIÇÕES ===== */
+#licoes { background: var(--bg); }
+.licoes-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem; margin-top: 2.5rem;
+}
+.licao-card {
+  background: var(--card); border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 2rem; position: relative; overflow: hidden;
+  transition: var(--transition);
+  opacity: 0; transform: translateY(20px);
+}
+.licao-card.visible { opacity: 1; transform: translateY(0); }
+.licao-card:hover { border-color: rgba(91,158,201,0.3); transform: translateY(-4px); box-shadow: var(--shadow); }
+.licao-num {
+  position: absolute; top: 1rem; right: 1.5rem;
+  font-family: var(--hfont); font-size: 4rem; font-weight: 800;
+  color: rgba(74,127,165,0.08); line-height: 1;
+}
+.licao-icon {
+  width: 3rem; height: 3rem; border-radius: 12px;
+  background: linear-gradient(135deg, var(--primary), var(--accent3));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; color: #fff; margin-bottom: 1rem;
+  box-shadow: 0 4px 12px rgba(74,127,165,0.3);
+}
+.licao-title { font-family: var(--hfont); font-size: 1.1rem; font-weight: 700; color: var(--ink); margin-bottom: 0.5rem; }
+.licao-desc { font-size: 0.85rem; color: var(--ink2); line-height: 1.7; }
+
+/* ===== POLÍTICA ===== */
+#politica { background: var(--bg2); }
+.politica-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; margin-top: 2.5rem; }
+.politica-cards { display: flex; flex-direction: column; gap: 1rem; }
+.politica-card {
+  background: var(--card); border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 1.25rem 1.5rem;
+  display: flex; align-items: flex-start; gap: 1rem;
+  transition: var(--transition);
+}
+.politica-card:hover { border-color: rgba(232,168,56,0.3); }
+.politica-icon {
+  width: 2.5rem; height: 2.5rem; border-radius: 10px;
+  background: rgba(232,168,56,0.12); color: var(--accent2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; flex-shrink: 0;
+}
+.politica-card-title { font-family: var(--hfont); font-size: 0.9rem; font-weight: 700; color: var(--ink); margin-bottom: 0.3rem; }
+.politica-card-text { font-size: 0.82rem; color: var(--ink2); line-height: 1.6; }
+.politica-card-text strong { color: var(--accent2); }
+.balance-box {
+  background: var(--card); border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.05);
+  overflow: hidden;
+}
+.balance-box-header {
+  padding: 1rem 1.5rem; background: rgba(74,127,165,0.08);
+  border-bottom: 1px solid rgba(74,127,165,0.15);
+  display: flex; align-items: center; gap: 0.6rem;
+  font-family: var(--hfont); font-size: 0.85rem; font-weight: 700; color: var(--ink);
+}
+.balance-box-header i { color: var(--accent1); }
+.balance-cols { display: grid; grid-template-columns: 1fr 1fr; }
+.balance-side { padding: 1.25rem; }
+.balance-side:first-child { border-right: 1px solid rgba(255,255,255,0.05); }
+.balance-side-title {
+  font-family: var(--hfont); font-size: 0.68rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 0.75rem;
+}
+.balance-side.trad .balance-side-title { color: var(--accent2); }
+.balance-side.tech .balance-side-title { color: var(--accent1); }
+.balance-item { display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem; }
+.balance-item i { font-size: 0.65rem; margin-top: 0.25rem; flex-shrink: 0; }
+.balance-side.trad .balance-item i { color: var(--accent2); }
+.balance-side.tech .balance-item i { color: var(--accent1); }
+.balance-item span { font-size: 0.78rem; color: var(--ink2); line-height: 1.4; }
+
+/* ===== EQUIPE ===== */
+#equipe { background: var(--bg); }
+.equipe-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem; margin-top: 2.5rem;
+}
+.equipe-card {
+  background: var(--card); border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 1.75rem; text-align: center;
+  transition: var(--transition);
+}
+.equipe-card:hover { border-color: rgba(91,158,201,0.3); transform: translateY(-4px); }
+.equipe-avatar {
+  width: 60px; height: 60px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--accent3));
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--hfont); font-size: 1.3rem; font-weight: 800; color: #fff;
+  margin: 0 auto 1rem;
+}
+.equipe-name { font-family: var(--hfont); font-size: 0.95rem; font-weight: 700; color: var(--ink); margin-bottom: 0.25rem; }
+.equipe-ra { font-size: 0.72rem; color: var(--accent1); font-weight: 600; letter-spacing: 0.08em; }
+.equipe-info {
+  background: var(--card); border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 2rem; margin-top: 1.5rem;
+  display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;
+}
+.equipe-info-icon { font-size: 2.5rem; color: var(--accent1); flex-shrink: 0; }
+.equipe-info-title { font-family: var(--hfont); font-size: 1rem; font-weight: 700; color: var(--ink); margin-bottom: 0.3rem; }
+.equipe-info-sub { font-size: 0.82rem; color: var(--ink2); line-height: 1.5; }
+
+/* ===== FOOTER ===== */
+footer {
+  background: var(--bg2); border-top: 1px solid rgba(74,127,165,0.15);
+  padding: 3rem 2rem;
+}
+.footer-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 1.5rem;
+}
+.footer-logo { font-family: var(--hfont); font-size: 0.9rem; font-weight: 700; color: var(--ink); }
+.footer-logo span { color: var(--accent2); }
+.footer-refs { display: flex; flex-direction: column; gap: 0.3rem; }
+.footer-ref { font-size: 0.72rem; color: var(--ink3); }
+.footer-ref strong { color: var(--ink2); }
+.footer-copy { font-size: 0.72rem; color: var(--ink3); text-align: right; }
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .id-grid, .urbana-grid, .conceito-grid, .diagrid-layout, .spiral-layout, .critica-grid, .politica-grid { grid-template-columns: 1fr; }
+  .espacos-grid { grid-template-columns: 1fr 1fr; }
+  .impactos-kpis { grid-template-columns: 1fr 1fr; }
+  .impactos-awards { grid-template-columns: 1fr; }
+  .licoes-grid { grid-template-columns: 1fr; }
+  .hero-stat-divider { display: none; }
+  .diagrid-image img, .spiral-image img { height: 300px; }
+  .id-image-wrap img { height: 280px; }
+}
+@media (max-width: 600px) {
+  section { padding: 3.5rem 1.25rem; }
+  .espacos-grid { grid-template-columns: 1fr; }
+  .impactos-kpis { grid-template-columns: 1fr; }
+  .balance-cols { grid-template-columns: 1fr; }
+  .balance-side:first-child { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .hero-stats { gap: 1rem; }
+  .footer-inner { flex-direction: column; text-align: center; }
+  .footer-copy { text-align: center; }
+  .urbana-kpis { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-logo">
+    <div class="nav-logo-icon"><i class="fas fa-building"></i></div>
+    <div>
+      <div class="nav-logo-text">Seattle Central Library</div>
+      <div class="nav-logo-sub">UCDB · Seminário Arquitetônico</div>
+    </div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#identificacao">Identificação</a></li>
+    <li><a href="#historia">História</a></li>
+    <li><a href="#conceito">Conceito</a></li>
+    <li><a href="#espacos">Espaços</a></li>
+    <li><a href="#impactos">Impactos</a></li>
+    <li><a href="#critica">Análise</a></li>
+    <li><a href="#equipe" class="nav-cta">Equipe</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#identificacao" onclick="closeMenu()">Identificação</a>
+  <a href="#historia" onclick="closeMenu()">História</a>
+  <a href="#urbana" onclick="closeMenu()">Inserção Urbana</a>
+  <a href="#conceito" onclick="closeMenu()">Conceito</a>
+  <a href="#diagrid" onclick="closeMenu()">Diagrid</a>
+  <a href="#espacos" onclick="closeMenu()">Espaços</a>
+  <a href="#impactos" onclick="closeMenu()">Impactos</a>
+  <a href="#critica" onclick="closeMenu()">Análise Crítica</a>
+  <a href="#licoes" onclick="closeMenu()">Lições</a>
+  <a href="#equipe" onclick="closeMenu()">Equipe</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-diagrid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <i class="fas fa-university"></i>
+      UCDB · Projeto Arquitetônico do Espaço Institucional · 7° Semestre
+    </div>
+    <h1 class="hero-title">
+      Biblioteca Central
+      <span>de Seattle</span>
+    </h1>
+    <p class="hero-subtitle">Rem Koolhaas / OMA + LMN Architects · 2004</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><i class="fas fa-map-marker-alt"></i> Downtown Seattle, EUA</div>
+      <div class="hero-meta-item"><i class="fas fa-calendar"></i> Inaugurada em 23 maio 2004</div>
+      <div class="hero-meta-item"><i class="fas fa-ruler-combined"></i> 34.000 m² · 11 andares</div>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">34K</div>
+        <div class="hero-stat-label">m² construídos</div>
+      </div>
+      <div class="hero-stat-divider"></div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">11</div>
+        <div class="hero-stat-label">andares</div>
+      </div>
+      <div class="hero-stat-divider"></div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">US$166M</div>
+        <div class="hero-stat-label">investimento</div>
+      </div>
+      <div class="hero-stat-divider"></div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">2M+</div>
+        <div class="hero-stat-label">visitantes/ano</div>
+      </div>
+    </div>
+    <div class="hero-cta">
+      <a href="#identificacao" class="btn-primary"><i class="fas fa-arrow-down"></i> Explorar o Projeto</a>
+      <a href="#equipe" class="btn-outline"><i class="fas fa-users"></i> Ver Equipe</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Rolar</span>
+    <i class="fas fa-chevron-down"></i>
+  </div>
+</section>
+
+<!-- IDENTIFICAÇÃO -->
+<section id="identificacao">
+  <div class="container">
+    <div class="section-label">01 · Identificação da Obra</div>
+    <h2 class="section-title">Uma Biblioteca <span>Icônica</span></h2>
+    <p class="section-desc">A Seattle Central Library é a sede principal do sistema de bibliotecas públicas de Seattle — um edifício que redefiniu o que uma biblioteca pública pode ser no século XXI.</p>
+    <div class="divider-line"></div>
+    <div class="id-grid">
+      <div class="id-image-wrap">
+        <img src="https://lmnarchitects.com/wp-content/uploads/2021/12/Seattle-Central-Library_20-1.jpg" alt="Seattle Central Library fachada diagrid" loading="lazy"/>
+        <div class="id-image-overlay"></div>
+        <div class="id-image-badge">
+          <strong>Seattle · EUA</strong>
+          Downtown · 4th &amp; 5th Avenue
+        </div>
+      </div>
+      <div class="id-facts">
+        <div class="id-fact">
+          <div class="id-fact-label"><i class="fas fa-pencil-ruler"></i> Autoria &amp; Escritórios</div>
+          <div class="id-fact-value"><strong>Rem Koolhaas / OMA</strong> + Joshua Prince-Ramus em parceria com <strong>LMN Architects</strong> (Seattle). Bjarke Ingels colaborou no desenho das caixas internas.</div>
+        </div>
+        <div class="id-fact">
+          <div class="id-fact-label"><i class="fas fa-ruler-combined"></i> Dados Físicos &amp; Temporais</div>
+          <div class="id-fact-value"><strong>11 andares · 56 m de altura · 34.000 m²</strong> de área construída. Inaugurada em <strong>23 de maio de 2004</strong>, no centro de Seattle.</div>
+        </div>
+        <div class="id-fact">
+          <div class="id-fact-label"><i class="fas fa-dollar-sign"></i> Financiamento Público &amp; Privado</div>
+          <div class="id-fact-value">Custo: <strong>US$ 165,9–169,2 milhões</strong>. Fundo público "Libraries for All" + doação de <strong>US$ 20 milhões de Bill Gates</strong>.</div>
+        </div>
+        <div class="id-fact">
+          <div class="id-fact-label"><i class="fas fa-history"></i> Continuidade Histórica</div>
+          <div class="id-fact-value"><strong>Terceiro prédio</strong> da biblioteca central no mesmo terreno desde 1906 — uma forte sensação de continuidade histórica para a comunidade de Seattle.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HISTÓRIA -->
+<section id="historia">
+  <div class="container">
+    <div class="section-label">02 · História</div>
+    <h2 class="section-title">Das Origens ao <span>Ícone</span></h2>
+    <p class="section-desc">O mesmo terreno na 4th Avenue abriga a memória cultural de Seattle há mais de um século — três prédios, três épocas, uma missão contínua.</p>
+    <div class="divider-line"></div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"><i class="fas fa-home"></i></div>
+        <div class="timeline-year">c. 1884 – 1901</div>
+        <div class="timeline-title">Yesler Mansion — A Primeira Biblioteca</div>
+        <div class="timeline-text">A mansão de Henry Yesler, fundador de Seattle, foi cedida à cidade e adaptada como primeira biblioteca pública. O mesmo terreno na 4th Ave já abrigava o coração cultural da cidade desde os primórdios da colonização.</div>
+        <div class="timeline-images">
+          <div class="timeline-img">
+            <img src="https://pauldorpat.com/wp-content/uploads/2012/01/2-yesler-mansion-w-fruit-trees-across-jefferson-st-web1.jpg" alt="Yesler Mansion Seattle" loading="lazy"/>
+            <div class="timeline-img-label">Yesler Mansion — c. 1884</div>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"><i class="fas fa-landmark"></i></div>
+        <div class="timeline-year">1906</div>
+        <div class="timeline-title">Carnegie Library — O Segundo Prédio</div>
+        <div class="timeline-text">Com doação de Andrew Carnegie, foi construída uma biblioteca neoclássica no mesmo lote. Inaugurada em 1906, serviu Seattle por mais de 50 anos com elegância e solidez arquitetônica, tornando-se referência cultural da cidade.</div>
+        <div class="timeline-images">
+          <div class="timeline-img">
+            <img src="https://www.spl.org/Seattle-Public-Library/images/locations/cen/cen-history/FirstSeattleCarnegieLibrary_1906_1960_WebComponent.jpg" alt="Carnegie Library Seattle 1906" loading="lazy"/>
+            <div class="timeline-img-label">Carnegie Library — 1906</div>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"><i class="fas fa-building"></i></div>
+        <div class="timeline-year">1960</div>
+        <div class="timeline-title">Prédio Modernista — O Terceiro Edifício (Bindon &amp; Wright)</div>
+        <div class="timeline-text">A Carnegie foi demolida e substituída por um edifício modernista. Funcional, mas logo insuficiente: no final dos anos 1990, dois terços dos livros ficavam em depósitos fechados, inacessíveis ao público. Riscos sísmicos agravavam a situação.</div>
+        <div class="timeline-images">
+          <div class="timeline-img">
+            <img src="https://art-facts.com/wp-content/uploads/2022/11/Bindon-and-Wright-Library-in-the-1960s.jpg.webp" alt="Seattle Library 1960s" loading="lazy"/>
+            <div class="timeline-img-label">Prédio Bindon &amp; Wright — 1960</div>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"><i class="fas fa-star"></i></div>
+        <div class="timeline-year">2004</div>
+        <div class="timeline-title">OMA + LMN Architects — O Ícone Contemporâneo</div>
+        <div class="timeline-text">Rem Koolhaas e Joshua Prince-Ramus (OMA) em parceria com LMN Architects entregam um edifício que redefine o conceito de biblioteca pública: 34.000 m², estrutura diagrid antissísmica, Book Spiral e integração total entre acervo físico e digital.</div>
+        <div class="timeline-images">
+          <div class="timeline-img">
+            <img src="https://images.squarespace-cdn.com/content/v1/586d66ef8419c24fd40132e5/ed664bc6-a4ff-43b4-87f9-d4c52c2f38b2/rem-koolhaas-seattle-central-library-2020.jpg" alt="Seattle Central Library 2004" loading="lazy"/>
+            <div class="timeline-img-label">Seattle Central Library — 2004</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEMA E DEMANDA -->
+<section id="problema" style="background: var(--bg2);">
+  <div class="container">
+    <div class="section-label">03 · Problema e Demanda</div>
+    <h2 class="section-title">Por Que Foi <span>Necessário</span>?</h2>
+    <p class="section-desc">O prédio anterior de 1960 tornou-se insuficiente em múltiplas dimensões — física, estrutural e conceitual — exigindo uma resposta arquitetônica radical.</p>
+    <div class="problema-grid">
+      <div class="problema-card">
+        <div class="problema-num">1960</div>
+        <div class="problema-label">Prédio Anterior</div>
+        <div class="problema-desc">Superlotado e incapaz de atender ao crescimento da população de Seattle nas décadas seguintes.</div>
+      </div>
+      <div class="problema-card">
+        <div class="problema-num">2/3</div>
+        <div class="problema-label">Livros em Depósito</div>
+        <div class="problema-desc">Inacessíveis ao público no final dos anos 1990 — dois terços do acervo guardados em depósitos fechados.</div>
+      </div>
+      <div class="problema-card">
+        <div class="problema-num">Risco</div>
+        <div class="problema-label">Sísmico Real</div>
+        <div class="problema-desc">Estrutura antiga vulnerável a terremotos em Seattle — cidade localizada em zona sísmica ativa do Pacífico.</div>
+      </div>
+      <div class="problema-card">
+        <div class="problema-num">Paradoxo</div>
+        <div class="problema-label">Era Digital</div>
+        <div class="problema-desc">Projetar uma biblioteca física na cidade sede da Microsoft — onde a internet parecia tornar as bibliotecas obsoletas.</div>
+      </div>
+    </div>
+    <div class="quote-block">
+      <div class="quote-mark">"</div>
+      <div class="quote-text">As bibliotecas precisam ser pilares da democracia — espaços de livre acesso físico e digital, onde informação se transforma em conhecimento real.</div>
+      <div class="quote-author">Rem Koolhaas &amp; Joshua Prince-Ramus — OMA, premissa conceitual do projeto</div>
+    </div>
+  </div>
+</section>
+
+<!-- INSERÇÃO URBANA -->
+<section id="urbana">
+  <div class="container">
+    <div class="section-label">04 · Inserção Urbana</div>
+    <h2 class="section-title">No Coração do <span>Downtown</span></h2>
+    <p class="section-desc">A biblioteca ocupa um quarteirão inteiro no centro comercial de Seattle, com localização estratégica que prioriza pedestres e transporte público.</p>
+    <div class="divider-line"></div>
+    <div class="urbana-grid">
+      <div>
+        <div class="urbana-map">
+          <img src="https://uploads.visitseattle.org/2015/03/VisitSeattle_DT_Map_0613.png" alt="Mapa do Downtown Seattle" loading="lazy"/>
+          <div class="urbana-map-label"><i class="fas fa-map"></i> Mapa do Downtown · Seattle, WA</div>
+        </div>
+      </div>
+      <div class="urbana-info">
+        <div class="urbana-card">
+          <div class="urbana-icon"><i class="fas fa-map-pin"></i></div>
+          <div>
+            <div class="urbana-card-title">Quarteirão Inteiro no Downtown</div>
+            <div class="urbana-card-text">Entre a 4th Ave (entrada inferior) e a 5th Ave (entrada superior), nas ruas Spring e Madison — coração comercial de Seattle, com acesso irrestrito a pedestres.</div>
+          </div>
+        </div>
+        <div class="urbana-card">
+          <div class="urbana-icon"><i class="fas fa-road"></i></div>
+          <div>
+            <div class="urbana-card-title">Desnível Topográfico Aproveitado</div>
+            <div class="urbana-card-text">O terreno tem inclinação acentuada entre Spring e Madison St. Os arquitetos criaram duas entradas em níveis distintos, integrando a topografia ao projeto como oportunidade arquitetônica.</div>
+          </div>
+        </div>
+        <div class="urbana-card">
+          <div class="urbana-icon"><i class="fas fa-bus"></i></div>
+          <div>
+            <div class="urbana-card-title">Prioridade ao Pedestre</div>
+            <div class="urbana-card-text">Estacionamento subterrâneo para 143 vagas fica "escondido" para valorizar o transporte público. Jardim perimetral contínuo suaviza a transição entre o edifício monumental e a escala humana.</div>
+          </div>
+        </div>
+        <div class="urbana-kpis">
+          <div class="urbana-kpi">
+            <div class="urbana-kpi-num">2M+</div>
+            <div class="urbana-kpi-label">visitantes no 1º ano</div>
+          </div>
+          <div class="urbana-kpi">
+            <div class="urbana-kpi-num">US$16M</div>
+            <div class="urbana-kpi-label">em atividade econômica gerada</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONCEITO DAS PLATAFORMAS -->
+<section id="conceito">
+  <div class="container">
+    <div class="section-label">05 · Organização Espacial</div>
+    <h2 class="section-title">O Conceito das <span>Plataformas</span></h2>
+    <p class="section-desc">A OMA dividiu o programa em dois tipos de espaços opostos e complementares — a tensão entre rigidez e fluidez é o motor gerador da forma.</p>
+    <div class="conceito-grid">
+      <div class="conceito-col">
+        <div class="conceito-header">
+          <div class="conceito-header-title"><i class="fas fa-cube"></i> Plataformas Estáveis</div>
+          <div class="conceito-header-sub">5 Caixas Rígidas — Funções Fixas</div>
+          <div class="conceito-header-desc">Caixas fechadas e desalinhadas entre si, projetadas para funções específicas e imutáveis. Seu deslocamento gera o volume facetado e escultural do edifício.</div>
+        </div>
+        <div class="conceito-item"><i class="fas fa-car"></i><span><strong>Estacionamento</strong> — infraestrutura subterrânea</span></div>
+        <div class="conceito-item"><i class="fas fa-briefcase"></i><span><strong>Administração</strong> — gestão operacional</span></div>
+        <div class="conceito-item"><i class="fas fa-door-open"></i><span><strong>Salas de Reunião</strong> — espaços técnicos</span></div>
+        <div class="conceito-item"><i class="fas fa-book"></i><span><strong>Acervo de Livros</strong> — Book Spiral (6º ao 9º andar)</span></div>
+        <div class="conceito-item"><i class="fas fa-user-tie"></i><span><strong>Diretoria</strong> — administração executiva</span></div>
+      </div>
+      <div class="conceito-col">
+        <div class="conceito-header" style="border-top-color: var(--accent1);">
+          <div class="conceito-header-title" style="color: var(--accent1);"><i class="fas fa-water"></i> Zonas Instáveis</div>
+          <div class="conceito-header-sub">Interstícios — Espaços Fluidos</div>
+          <div class="conceito-header-desc">Grandes espaços abertos, iluminados e adaptáveis que "sobram" entre as caixas rígidas — destinados ao convívio e à experiência pública.</div>
+        </div>
+        <div class="conceito-item"><i class="fas fa-child"></i><span><strong>Setor Infantil</strong> — entrada pela 4ª Avenida</span></div>
+        <div class="conceito-item"><i class="fas fa-book-open"></i><span><strong>Sala de Leitura</strong> — 400 lugares, teto de vidro</span></div>
+        <div class="conceito-item"><i class="fas fa-couch"></i><span><strong>Living Room</strong> — salão público monumental, 3º andar</span></div>
+        <div class="conceito-diagram">
+          <img src="https://images.adsttc.com/media/images/54af/e4fb/e58e/cef9/bf00/006e/large_jpg/1376179271_spl-platform-diagram-rex.jpg?1420813551" alt="Diagrama OMA plataformas" loading="lazy"/>
+          <div class="conceito-diagram-label">Diagrama conceitual OMA — deslocamento das caixas gera o formato facetado exterior</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIAGRID -->
+<section id="diagrid">
+  <div class="container">
+    <div class="section-label">06 · Sistema Estrutural</div>
+    <h2 class="section-title">A Estrutura <span>Diagrid</span></h2>
+    <p class="section-desc">Rede metálica externa em losangos de aço combinada com vidro — estrutura, vedação e identidade visual em um único sistema.</p>
+    <div class="divider-line"></div>
+    <div class="diagrid-layout">
+      <div class="diagrid-image">
+        <img src="https://www.hoffmancorp.com/wp-content/uploads/2020/01/Seattle-Central-Library_015.jpg" alt="Estrutura diagrid Seattle Central Library" loading="lazy"/>
+      </div>
+      <div class="diagrid-info">
+        <p style="font-size:0.9rem; color:var(--ink2); line-height:1.7; margin-bottom:0.5rem;">Engenharia estrutural: <strong style="color:var(--ink)">Magnusson Klemencic Associates (MKA)</strong>. A diagrid funciona simultaneamente como estrutura portante, vedação e identidade visual — cada face recebe tratamento de vidro diferente conforme orientação solar, ventos e vistas.</p>
+        <div class="diagrid-feature">
+          <div class="diagrid-icon"><i class="fas fa-th"></i></div>
+          <div>
+            <div class="diagrid-feature-title">Rede de Losangos em Aço e Vidro</div>
+            <div class="diagrid-feature-text">Exoesqueleto metálico que envolve todo o edifício, formando o padrão geométrico de diamantes que define a identidade visual da biblioteca.</div>
+          </div>
+        </div>
+        <div class="diagrid-feature">
+          <div class="diagrid-icon"><i class="fas fa-expand-arrows-alt"></i></div>
+          <div>
+            <div class="diagrid-feature-title">Sem Colunas Internas nos Cantos</div>
+            <div class="diagrid-feature-text">Elimina a necessidade de colunas internas pesadas nos cantos, liberando os espaços interiores para layouts flexíveis e abertos.</div>
+          </div>
+        </div>
+        <div class="diagrid-feature">
+          <div class="diagrid-icon"><i class="fas fa-shield-alt"></i></div>
+          <div>
+            <div class="diagrid-feature-title">Resistência Sísmica e a Ventos</div>
+            <div class="diagrid-feature-text">Necessidade real em Seattle — cidade em zona sísmica ativa. A diagrid distribui as cargas de forma eficiente, protegendo o edifício contra terremotos e ventos.</div>
+          </div>
+        </div>
+        <div class="diagrid-feature">
+          <div class="diagrid-icon"><i class="fas fa-sun"></i></div>
+          <div>
+            <div class="diagrid-feature-title">Fachada Inteligente e Responsiva</div>
+            <div class="diagrid-feature-text">Cada face do edifício recebe tratamento diferente de vidro conforme a orientação solar, o vento e as vistas — forma e função inseparáveis.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOK SPIRAL -->
+<section id="spiral">
+  <div class="container">
+    <div class="section-label">07 · Inovação Tipológica</div>
+    <h2 class="section-title">Book Spiral — <span>A Espiral de Livros</span></h2>
+    <p class="section-desc">Uma solução sem precedentes em bibliotecas públicas no mundo — a espiral como resposta arquitetônica a um problema funcional real.</p>
+    <div class="divider-line"></div>
+    <div class="spiral-layout">
+      <div class="spiral-info">
+        <div class="spiral-stat">
+          <div class="spiral-stat-num">2°</div>
+          <div class="spiral-stat-label">de inclinação — rampa contínua pelos andares 6 a 9</div>
+        </div>
+        <div class="spiral-features">
+          <div class="spiral-feature">
+            <i class="fas fa-infinity"></i>
+            <div class="spiral-feature-text"><strong>Rampa Contínua:</strong> Uma rampa em espiral suave atravessa os andares 6 a 9, permitindo navegação fluida por todo o acervo sem subir um único degrau.</div>
+          </div>
+          <div class="spiral-feature">
+            <i class="fas fa-sort-numeric-down"></i>
+            <div class="spiral-feature-text"><strong>Sistema Dewey Ininterrupto:</strong> Todo o acervo de não-ficção segue em sequência decimal contínua — o usuário percorre a classificação completa sem quebras ou saltos entre andares.</div>
+          </div>
+          <div class="spiral-feature">
+            <i class="fas fa-ban"></i>
+            <div class="spiral-feature-text"><strong>Fim da Fragmentação:</strong> Elimina a fragmentação causada por andares separados, tornando a busca intuitiva e a experiência espacial verdadeiramente contínua.</div>
+          </div>
+        </div>
+      </div>
+      <div class="spiral-image">
+        <img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200_webp/c535fa235011093.68ce91fb1e3e6.jpg" alt="Book Spiral Seattle Central Library" loading="lazy"/>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ESPAÇOS EMBLEMÁTICOS -->
+<section id="espacos">
+  <div class="container">
+    <div class="section-label">08 · Espaços Emblemáticos</div>
+    <h2 class="section-title">Experiências <span>Internas</span></h2>
+    <p class="section-desc">Três espaços definem a experiência do usuário e tornaram-se referências da arquitetura pública contemporânea.</p>
+    <div class="espacos-grid">
+      <div class="espaco-card">
+        <div class="espaco-img">
+          <img src="https://i0.wp.com/visiteseattle.com/wp-content/uploads/2017/08/seattle-public-library-living-room.jpg?resize=1030%2C700" alt="Living Room Seattle Central Library" loading="lazy"/>
+          <div class="espaco-img-overlay"></div>
+          <div class="espaco-floor">3° Pavimento</div>
+        </div>
+        <div class="espaco-body">
+          <div class="espaco-title">Living Room</div>
+          <div class="espaco-desc">Salão monumental sob teto de vidro inclinado, com sofás e carpetes — considerado um dos locais públicos mais acolhedores e democráticos de Seattle pela crítica especializada.</div>
+        </div>
+      </div>
+      <div class="espaco-card">
+        <div class="espaco-img">
+          <img src="https://going-cms-strapi.s3.amazonaws.com/6465521fb1bfc590fc61c459_central_20library_20red_20room_4e77106312.webp" alt="Red Floor Seattle Central Library" loading="lazy"/>
+          <div class="espaco-img-overlay"></div>
+          <div class="espaco-floor">4° Pavimento</div>
+        </div>
+        <div class="espaco-body">
+          <div class="espaco-title">Red Floor — Piso Vermelho</div>
+          <div class="espaco-desc">Rampas, escadas e paredes curvas em 13 tons de vermelho brilhante — circulação icônica entre salas de reunião que se tornou um dos elementos mais fotografados da biblioteca.</div>
+        </div>
+      </div>
+      <div class="espaco-card">
+        <div class="espaco-img">
+          <img src="https://images.squarespace-cdn.com/content/v1/586d66ef8419c24fd40132e5/1588879676443-2SAQN5I51J495IHG9JUY/seattle-central-library-rem-koolhaas-998.jpg" alt="Mixing Chamber Seattle Central Library" loading="lazy"/>
+          <div class="espaco-img-overlay"></div>
+          <div class="espaco-floor">5° Pavimento</div>
+        </div>
+        <div class="espaco-body">
+          <div class="espaco-title">Mixing Chamber</div>
+          <div class="espaco-desc">Espaço de alta tecnologia com 300+ computadores e balcões de referência para cruzar acervos físicos e digitais — o coração tecnológico da biblioteca.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAMA DE NECESSIDADES -->
+<section id="programa">
+  <div class="container">
+    <div class="section-label">09 · Programa de Necessidades</div>
+    <h2 class="section-title">11 Andares · <span>34.000 m²</span></h2>
+    <p class="section-desc">Um programa completo que integra leitura, tecnologia, cultura, memória histórica e serviços comunitários em um único edifício público.</p>
+    <div class="programa-grid">
+      <div class="programa-card">
+        <div class="programa-icon-wrap"><i class="fas fa-book-open"></i></div>
+        <div>
+          <div class="programa-num">400</div>
+          <div class="programa-label">Lugares</div>
+          <div class="programa-title">Sala de Leitura</div>
+          <div class="programa-desc">Betty Jane Narver Reading Room — grande salão de leitura no topo do edifício com iluminação natural zenital.</div>
+        </div>
+      </div>
+      <div class="programa-card">
+        <div class="programa-icon-wrap"><i class="fas fa-laptop"></i></div>
+        <div>
+          <div class="programa-num">300+</div>
+          <div class="programa-label">Computadores</div>
+          <div class="programa-title">Mixing Chamber</div>
+          <div class="programa-desc">Câmara de mistura no 5º pavimento: referência digital e física integradas, com atendimento especializado ao usuário.</div>
+        </div>
+      </div>
+      <div class="programa-card">
+        <div class="programa-icon-wrap"><i class="fas fa-theater-masks"></i></div>
+        <div>
+          <div class="programa-num">275</div>
+          <div class="programa-label">Lugares</div>
+          <div class="programa-title">Microsoft Auditorium</div>
+          <div class="programa-desc">Para palestras, exibições e eventos culturais; café e loja integrados ao programa público do edifício.</div>
+        </div>
+      </div>
+      <div class="programa-card">
+        <div class="programa-icon-wrap"><i class="fas fa-child"></i></div>
+        <div>
+          <div class="programa-num">4ª</div>
+          <div class="programa-label">Avenida</div>
+          <div class="programa-title">Infância &amp; Comunidade</div>
+          <div class="programa-desc">Centro Infantil com entrada independente, além de salas dedicadas a Música, Mapas e Genealogia para pesquisa especializada.</div>
+        </div>
+      </div>
+      <div class="programa-card">
+        <div class="programa-icon-wrap"><i class="fas fa-archive"></i></div>
+        <div>
+          <div class="programa-num">SPL</div>
+          <div class="programa-label">Seattle Room</div>
+          <div class="programa-title">Memória Histórica</div>
+          <div class="programa-desc">Acervo histórico exclusivo da cidade de Seattle — documentos, fotografias e registros que preservam a identidade local.</div>
+        </div>
+      </div>
+      <div class="programa-card">
+        <div class="programa-icon-wrap"><i class="fas fa-car"></i></div>
+        <div>
+          <div class="programa-num">143</div>
+          <div class="programa-label">Vagas Subterrâneas</div>
+          <div class="programa-title">Serviços &amp; Infraestrutura</div>
+          <div class="programa-desc">Estacionamento enterrado para priorizar pedestres; salas de reunião, café e loja complementam o programa de uso coletivo.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POLÍTICA E TECNOLOGIA -->
+<section id="politica">
+  <div class="container">
+    <div class="section-label">10 · Política &amp; Tecnologia</div>
+    <h2 class="section-title">Democracia, Inovação <span>&amp; Tradição</span></h2>
+    <p class="section-desc">A biblioteca provou que livros e internet não são opostos — são complementares. O espaço físico transforma informação digital em conhecimento humano real.</p>
+    <div class="politica-grid">
+      <div class="politica-cards">
+        <div class="politica-card">
+          <div class="politica-icon"><i class="fas fa-vote-yea"></i></div>
+          <div>
+            <div class="politica-card-title">Aprovação Popular — "Libraries for All"</div>
+            <div class="politica-card-text">Em 1998, os eleitores de Seattle aprovaram em referendo o fundo público <strong>"Libraries for All"</strong>, destinando recursos para renovar todo o sistema de bibliotecas da cidade.</div>
+          </div>
+        </div>
+        <div class="politica-card">
+          <div class="politica-icon"><i class="fas fa-dollar-sign"></i></div>
+          <div>
+            <div class="politica-card-title">US$ 165,9 mi — Financiamento Misto</div>
+            <div class="politica-card-text">Fundo público municipal + <strong>doação de US$ 20 milhões de Bill Gates</strong> (Microsoft). A "casa da Microsoft" financiando a biblioteca pública foi um gesto político e simbólico poderoso.</div>
+          </div>
+        </div>
+        <div class="politica-card">
+          <div class="politica-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div>
+            <div class="politica-card-title">Continuidade Histórica no Mesmo Terreno</div>
+            <div class="politica-card-text">Terceiro prédio no mesmo lote desde 1906. A decisão política de manter a biblioteca no centro reafirmou o compromisso da cidade com o <strong>acesso público ao conhecimento</strong>.</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="balance-box">
+          <div class="balance-box-header">
+            <i class="fas fa-balance-scale"></i>
+            Como a biblioteca integrou os dois mundos
+          </div>
+          <div class="balance-cols">
+            <div class="balance-side trad">
+              <div class="balance-side-title"><i class="fas fa-book" style="margin-right:5px;"></i>Tradição</div>
+              <div class="balance-item"><i class="fas fa-circle"></i><span>Book Spiral: acervo físico contínuo sem fragmentação</span></div>
+              <div class="balance-item"><i class="fas fa-circle"></i><span>400 lugares na sala de leitura silenciosa</span></div>
+              <div class="balance-item"><i class="fas fa-circle"></i><span>Living Room: espaço de convivência e leitura informal</span></div>
+              <div class="balance-item"><i class="fas fa-circle"></i><span>Seattle Room: acervo histórico e memória da cidade</span></div>
+            </div>
+            <div class="balance-side tech">
+              <div class="balance-side-title"><i class="fas fa-laptop" style="margin-right:5px;"></i>Tecnologia</div>
+              <div class="balance-item"><i class="fas fa-circle"></i><span>Mixing Chamber: 300+ computadores no 5° andar</span></div>
+              <div class="balance-item"><i class="fas fa-circle"></i><span>Cruzamento de referências físicas e digitais</span></div>
+              <div class="balance-item"><i class="fas fa-circle"></i><span>Wi-Fi e acesso digital gratuito para todos</span></div>
+              <div class="balance-item"><i class="fas fa-circle"></i><span>Catalogação digital integrada ao sistema Dewey</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACTOS -->
+<section id="impactos">
+  <div class="container">
+    <div class="section-label">11 · Impactos Urbanos</div>
+    <h2 class="section-title">Reconhecimento <span>Internacional</span></h2>
+    <p class="section-desc">No primeiro ano de operação, a biblioteca superou todas as projeções e consolidou-se como ícone da arquitetura pública contemporânea.</p>
+    <div class="impactos-kpis">
+      <div class="kpi-card">
+        <div class="kpi-num">2M+</div>
+        <div class="kpi-label">Visitantes no primeiro ano de operação — 30% vindos de fora de Seattle</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-num">US$16M</div>
+        <div class="kpi-label">Em nova atividade econômica gerada no entorno imediato</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-num">30%</div>
+        <div class="kpi-label">Dos visitantes vindos de fora de Seattle — atração turística global</div>
+      </div>
+    </div>
+    <div class="impactos-awards">
+      <div class="award-card">
+        <div class="award-icon"><i class="fas fa-award"></i></div>
+        <div>
+          <div class="award-title">AIA National Award 2005</div>
+          <div class="award-desc">Prêmio nacional do American Institute of Architects, reconhecendo excelência arquitetônica e impacto urbano excepcional.</div>
+        </div>
+      </div>
+      <div class="award-card">
+        <div class="award-icon"><i class="fas fa-star"></i></div>
+        <div>
+          <div class="award-title">150 Edifícios Favoritos dos Americanos</div>
+          <div class="award-desc">Eleita um dos 150 edifícios favoritos dos americanos, consolidando-se como ícone da arquitetura pública contemporânea.</div>
+        </div>
+      </div>
+    </div>
+    <div class="quote-block" style="margin-top:2rem;">
+      <div class="quote-mark">"</div>
+      <div class="quote-text">A biblioteca mais importante construída em uma geração — um edifício que redefine o que uma biblioteca pública pode ser no século XXI.</div>
+      <div class="quote-author">Paul Goldberger · The New Yorker</div>
+    </div>
+  </div>
+</section>
+
+<!-- ANÁLISE CRÍTICA -->
+<section id="critica">
+  <div class="container">
+    <div class="section-label">12 · Análise Crítica</div>
+    <h2 class="section-title">Grandiosidade vs. <span>Funcionalidade</span></h2>
+    <p class="section-desc">A biblioteca exemplifica a tensão entre grandiosidade arquitetônica e funcionalidade cotidiana — lição fundamental para projetos de espaços institucionais públicos.</p>
+    <div class="critica-grid">
+      <div class="critica-col positivo">
+        <div class="critica-col-header"><i class="fas fa-thumbs-up"></i> Pontos Positivos</div>
+        <div class="critica-items">
+          <div class="critica-item"><i class="fas fa-globe"></i><div class="critica-item-text"><strong>Ícone arquitetônico global</strong> — reconhecido internacionalmente e eleito um dos 150 edifícios favoritos dos americanos pelo AIA.</div></div>
+          <div class="critica-item"><i class="fas fa-layer-group"></i><div class="critica-item-text"><strong>Inovação tipológica</strong> — Book Spiral e Mixing Chamber redefinem como bibliotecas organizam e mediam o acesso ao conhecimento.</div></div>
+          <div class="critica-item"><i class="fas fa-couch"></i><div class="critica-item-text"><strong>Living Room</strong> — elogiado pela crítica como um dos espaços públicos mais acolhedores e democráticos de Seattle.</div></div>
+          <div class="critica-item"><i class="fas fa-award"></i><div class="critica-item-text"><strong>Prêmio AIA 2005</strong> e mais de 2 milhões de visitantes no primeiro ano, gerando US$ 16M em atividade econômica local.</div></div>
+        </div>
+      </div>
+      <div class="critica-col critico">
+        <div class="critica-col-header"><i class="fas fa-exclamation-triangle"></i> Pontos Críticos</div>
+        <div class="critica-items">
+          <div class="critica-item"><i class="fas fa-map-signs"></i><div class="critica-item-text"><strong>Wayfinding confuso</strong> — a complexidade espacial é tão extrema que virou tema do livro científico <em>"Take One Building"</em>.</div></div>
+          <div class="critica-item"><i class="fas fa-quote-left"></i><div class="critica-item-text">Lawrence Cheek (<em>Seattle Post-Intelligencer</em>, 2007): <strong>"confuso, impessoal e desconfortável"</strong>, com acabamentos disfuncionais.</div></div>
+          <div class="critica-item"><i class="fas fa-door-closed"></i><div class="critica-item-text"><strong>Project for Public Spaces (PPS)</strong> critica a biblioteca por ser <strong>"selada" da rua</strong>, sem conexão visual com as calçadas ao redor.</div></div>
+          <div class="critica-item"><i class="fas fa-city"></i><div class="critica-item-text"><strong>Tensão estrutural</strong> — espetáculo arquitetônico global em conflito com a função de equipamento público cotidiano de bairro.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIÇÕES DE PROJETO -->
+<section id="licoes" style="background: var(--bg2);">
+  <div class="container">
+    <div class="section-label">13 · Lições de Projeto</div>
+    <h2 class="section-title">Estratégias para <span>Aplicar</span></h2>
+    <p class="section-desc">Quatro lições estratégicas extraídas da Seattle Central Library para aplicação em projetos arquitetônicos de espaços institucionais públicos.</p>
+    <div class="licoes-grid">
+      <div class="licao-card">
+        <div class="licao-num">01</div>
+        <div class="licao-icon"><i class="fas fa-layer-group"></i></div>
+        <div class="licao-title">Agrupar por Plataformas</div>
+        <div class="licao-desc">Concentre funções similares em caixas técnicas rígidas e libere os interstícios para espaços fluidos e adaptáveis ao uso cotidiano. A tensão entre rigidez e fluidez gera riqueza espacial.</div>
+      </div>
+      <div class="licao-card">
+        <div class="licao-num">02</div>
+        <div class="licao-icon"><i class="fas fa-sun"></i></div>
+        <div class="licao-title">Fachada Inteligente</div>
+        <div class="licao-desc">Cada face do edifício deve responder ao sol, vento e vista específicos daquele lado, com tratamentos e materiais diferenciados. Forma e função devem ser inseparáveis.</div>
+      </div>
+      <div class="licao-card">
+        <div class="licao-num">03</div>
+        <div class="licao-icon"><i class="fas fa-door-open"></i></div>
+        <div class="licao-title">Térreo Permeável</div>
+        <div class="licao-desc">Use o desnível topográfico para criar múltiplos acessos e conecte visualmente o interior com as calçadas, evitando o prédio "selado". A vitalidade urbana depende dessa permeabilidade.</div>
+      </div>
+      <div class="licao-card">
+        <div class="licao-num">04</div>
+        <div class="licao-icon"><i class="fas fa-landmark"></i></div>
+        <div class="licao-title">Biblioteca como Democracia</div>
+        <div class="licao-desc">O espaço institucional deve ser pilar democrático — livre acesso físico e digital para transformar informação em conhecimento real. A arquitetura pública tem responsabilidade social.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EQUIPE -->
+<section id="equipe">
+  <div class="container">
+    <div class="section-label">14 · Equipe Acadêmica</div>
+    <h2 class="section-title">Quem <span>Apresenta</span></h2>
+    <p class="section-desc">Seminário para a disciplina de Projeto Arquitetônico do Espaço Institucional — UCDB, 7° Semestre, 2024.</p>
+    <div class="equipe-grid">
+      <div class="equipe-card">
+        <div class="equipe-avatar">AE</div>
+        <div class="equipe-name">Airton Edison de Araújo Neto</div>
+        <div class="equipe-ra">RA 192532</div>
+      </div>
+      <div class="equipe-card">
+        <div class="equipe-avatar">GF</div>
+        <div class="equipe-name">Giovanni Fedato</div>
+        <div class="equipe-ra">RA 197626</div>
+      </div>
+      <div class="equipe-card">
+        <div class="equipe-avatar">MM</div>
+        <div class="equipe-name">Maria Maluf</div>
+        <div class="equipe-ra">RA 197267</div>
+      </div>
+      <div class="equipe-card">
+        <div class="equipe-avatar">DM</div>
+        <div class="equipe-name">Denise Meirinho</div>
+        <div class="equipe-ra">RA 195693</div>
+      </div>
+    </div>
+    <div class="equipe-info">
+      <div class="equipe-info-icon"><i class="fas fa-university"></i></div>
+      <div>
+        <div class="equipe-info-title">UCDB — Universidade Católica Dom Bosco</div>
+        <div class="equipe-info-sub">Prof. Gustavo Kiotoshi Shiota &nbsp;·&nbsp; Projeto Arquitetônico do Espaço Institucional &nbsp;·&nbsp; 7° Semestre &nbsp;·&nbsp; 2024</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">Seattle Central Library <span>·</span> UCDB 2024</div>
+      <div style="font-size:0.72rem; color:var(--ink3); margin-top:0.3rem;">Rem Koolhaas / OMA + LMN Architects · Inaugurada em 23 maio 2004</div>
+    </div>
+    <div class="footer-refs">
+      <div class="footer-ref"><strong>Fontes:</strong> ArchDaily · spl.org · oma.com · lmnarchitects.com</div>
+      <div class="footer-ref">mka.com · Paul Goldberger (The New Yorker) · Project for Public Spaces</div>
+      <div class="footer-ref">Wikipedia · architecture-history.org · hoffmancorp.com</div>
+    </div>
+    <div class="footer-copy">
+      Seminário Acadêmico<br/>
+      UCDB · 7° Semestre · 2024
+    </div>
+  </div>
+</footer>
+
+<script>
+// Hamburger menu
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+function closeMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+}
+
+// Hero bg loaded
+window.addEventListener('load', () => {
+  document.getElementById('heroBg').classList.add('loaded');
+});
+
+// Scroll animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => {
+        entry.target.classList.add('visible');
+      }, entry.target.dataset.delay || 0);
+    }
+  });
+}, { threshold: 0.15 });
+
+// Animate elements
+document.querySelectorAll('.timeline-item, .problema-card, .espaco-card, .kpi-card, .licao-card').forEach((el, i) => {
+  el.dataset.delay = (i % 4) * 100;
+  observer.observe(el);
+});
+
+// Nav scroll effect
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('navbar');
+  if (window.scrollY > 50) {
+    nav.style.background = 'rgba(15,20,32,0.98)';
+  } else {
+    nav.style.background = 'rgba(15,20,32,0.92)';
+  }
+});
+
+// Counter animation for hero stats
+function animateCounter(el, target, suffix = '') {
+  let start = 0;
+  const duration = 2000;
+  const step = target / (duration / 16);
+  const timer = setInterval(() => {
+    start += step;
+    if (start >= target) {
+      start = target;
+      clearInterval(timer);
+    }
+    el.textContent = Math.floor(start).toLocaleString('pt-BR') + suffix;
+  }, 16);
+}
+
+// Smooth active nav link
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop - 100;
+    if (window.scrollY >= sectionTop) current = section.getAttribute('id');
+  });
+  navLinks.forEach(link => {
+    link.style.color = '';
+    if (link.getAttribute('href') === '#' + current) {
+      link.style.color = 'var(--ink)';
+    }
+  });
+});
+</script>
+</body>
+</html>
